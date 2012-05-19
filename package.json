@@ -2,10 +2,10 @@
   "author": "Jerry Sievert <code@legitimatesounding.com> (http://legitimatesounding.com/blog/index.html)",
   "name": "eventduino",
   "description": "Evented Arduino for Node.js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "http://legitimatesounding.com/blog/index.html",
   "repository": {
-    "url": ""
+    "url": "git://github.com/JerrySievert/EventDuino.git"
   },
   "main": "lib/index.js",
   "scripts": {

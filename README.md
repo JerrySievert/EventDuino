@@ -10,6 +10,10 @@ Support is pretty basic so far:
 * Reading and writing of pins
 * Watching pins for changes and emitting events
 
+## Installing
+
+    $ npm install eventduino
+
 ## On the Arduino
 
 Compile and upload the `sketch` in `src/eventdu`.  This `sketch` listens for commands and watches for changes to pins via the `watch` command.
