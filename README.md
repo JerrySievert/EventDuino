@@ -2,6 +2,8 @@
 
 An event-driven Arduino to Node.js adapter.
 
+[![Build Status](https://secure.travis-ci.org/JerrySievert/EventDuino.png)](http://travis-ci.org/JerrySievert/EventDuino)
+
 Support is pretty basic so far:
 
 * Arduino sketch with an event loop
