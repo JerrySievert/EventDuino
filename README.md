@@ -31,15 +31,15 @@ Currently defined commands and responses:
 * UNWATCH - Tells the Arduino to stop watching for a change on a `pin`
 * OK - Ok!
 
-      <packet> ::= <command> <argument> <comment> <EOL>
+      &lt;packet&gt; ::= &lt;command&gt; &lt;argument&gt; &lt;comment&gt; &lt;EOL&gt;
     
-     <command> ::= [0-9a-zA-Z][0-9a-zA-Z]
+     &lt;command&gt; ::= [0-9a-zA-Z][0-9a-zA-Z]
     
-    <argument> ::= <NULL>
+    &lt;argument&gt; ::= &lt;NULL&gt;
                  | [0-9]+ ':' [0-9a-zA-Z]+
-                 | <argument>
+                 | &lt;argument&gt;
                  
-     <comment> ::= <NULL>
+     &lt;comment&gt; ::= &lt;NULL&gt;
                  | '#' [0-9a-zA-Z]+
 
 ## Basic Events
