@@ -1,0 +1,24 @@
+{
+  "author": "Jerry Sievert <code@legitimatesounding.com> (http://legitimatesounding.com/blog/index.html)",
+  "name": "eventduino",
+  "description": "Evented Arduino for Node.js",
+  "version": "0.1.0",
+  "homepage": "http://legitimatesounding.com/blog/index.html",
+  "repository": {
+    "url": ""
+  },
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "vows --spec"
+  },
+  "engines": {
+    "node": ">=0.6.10"
+  },
+  "dependencies": {
+    "serialport": "~0.7.2"
+  },
+  "devDependencies": {
+    "vows": "~0.6.2"
+  },
+  "optionalDependencies": {}
+}
