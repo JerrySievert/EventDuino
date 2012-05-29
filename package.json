@@ -2,11 +2,12 @@
   "author": "Jerry Sievert <code@legitimatesounding.com> (http://legitimatesounding.com/blog/index.html)",
   "name": "eventduino",
   "description": "Evented Arduino for Node.js",
-  "version": "0.1.1",
-  "homepage": "http://legitimatesounding.com/blog/index.html",
+  "keywords": [ "arduino", "evented", "sketch" ],
+  "version": "0.1.2",
   "repository": {
-    "url": "git://github.com/JerrySievert/EventDuino.git"
+    "url": "http://github.com/JerrySievert/EventDuino.git"
   },
+  "license": "MIT/X11",
   "main": "lib/index.js",
   "scripts": {
     "test": "vows --spec"
