@@ -43,7 +43,7 @@ Currently defined commands and responses:
      <command> ::= [0-9a-zA-Z][0-9a-zA-Z]
     
     <argument> ::= <NULL>
-                 | [0-9]+ ':' [0-9a-zA-Z]+
+                 | ':' [0-9]+ ':' [0-9a-zA-Z]+
                  | <argument>
                  
      <comment> ::= <NULL>
