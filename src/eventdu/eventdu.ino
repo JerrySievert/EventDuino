@@ -1,4 +1,4 @@
-#define VERSION    "v0.1.0"
+#define VERSION    "v0.1.2"
 
 #define INIT       "00"
 #define ERROR      "01"
@@ -13,10 +13,14 @@
 #define MAX_BUFFER 1024
 #define MAX_ARGS   10
 
+// digital watch
 int d[14];
-int a[6];
 int wd[14];
+// analog watch
+int a[6];
 int wa[6];
+// analog variance
+int va[6];
 
 #include <stdarg.h>
 
@@ -47,6 +51,7 @@ void setup () {
     if (i < 6) {
       a[i] = 0;
       wa[i] = 0;
+      va[i] = 0;
     }
   }
   
@@ -77,12 +82,58 @@ void loop () {
         free(data[0]);
         free(data[1]);
       }
-    }    
-//    if (i < 6) {
-//      a[i] = 0;
-//      wa[i] = 0;
-//    }
+    }
+
+    if (i < 6) {
+      if (wa[i]) {
+        int ar = analogRead(i);
+        
+        if (ar != a[i] && abs(ar - a[i]) > va[i]) {
+          a[i] = ar;
+          
+          char *data[2];
+          
+          data[0] = p("A%d", i);
+          data[1] = p("%d", ar);
+          
+          write(WATCH, data, 2, NULL);
+          
+          free(data[0]);
+          free(data[1]);
+        }
+      }
+    }
   }
+}
+
+// find the real pin
+int realPin (char *pin) {
+  if (pin[0] == 'A') {
+    switch (pin[1]) {
+      case '0':
+      return A0;
+
+      case '1':
+      return A1;
+
+      case '2':
+      return A2;
+
+      case '3':
+      return A3;
+
+      case '4':
+      return A4;
+
+      case '5':
+      return A5;
+      
+      default:
+      return -1;
+    }
+  }
+
+  return atoi(pin);
 }
 
 // build the packet and send via serial
@@ -283,44 +334,67 @@ void cmd_ping () {
 }
 
 void cmd_get (char **args, int count) {
-  if (count && args[0][0] != 'A') {
-    char *data[2];
-    pinMode(atoi(args[0]), INPUT);
-    data[0] = args[0];
+  int pin = realPin(args[0]);
+  pinMode(pin, INPUT);
 
-    int current = digitalRead(atoi(args[1]));
+  char *data[2];
+  data[0] = args[0];
+
+  if (args[0][0] != 'A') {
+    int current = digitalRead(pin);
     data[1] = p("%d", current);
 
-    write(GET, data, 2, NULL);
-    free(data[1]);
+  } else {
+    int current = analogRead(pin);
+    
+    data[1] = p("%d", current);
   }
+
+  write(GET, data, 2, NULL);
+  free(data[1]);
 }
 
 void cmd_set (char **args, int count) {
-  pinMode(atoi(args[0]), OUTPUT);
+  int pin = realPin(args[0]);
+  pinMode(pin, OUTPUT);
 
-  digitalWrite(atoi(args[0]), atoi(args[1]));
-
-  d[atoi(args[0])] = 0;
+  if (args[0][0] != 'A') {
+    digitalWrite(pin, atoi(args[1]));
+    wd[atoi(args[0])] = 0;
+  } else {
+    analogWrite(pin, atoi(args[1]));
+    wa[atoi(args[0])] = 0;
+  }
 
   write(OK, NULL, 0, NULL);
 }
 
 void cmd_watch (char **args, int count) {
-  if (count && args[0][0] != 'A') {
-    pinMode(atoi(args[0]), INPUT);
+  int pin = realPin(args[0]);
+  pinMode(pin, INPUT);
 
-    wd[atoi(args[0])] = 1;
-    d[atoi(args[0])] = digitalRead(atoi(args[0]));
-
-    write(OK, NULL, 0, NULL);
+  if (args[0][0] != 'A') {
+    wd[pin] = 1;
+    d[pin] = digitalRead(pin);
+  } else {
+    wa[atoi(&args[0][1])] = 1;
+    a[atoi(&args[0][1])] = analogRead(pin);
+    if (count == 2) {
+      va[atoi(&args[0][1])] = atoi(args[1]);
+    } else {
+      va[atoi(&args[0][1])] = 0;
+    }
   }
+
+  write(OK, NULL, 0, NULL);
 }
 
 void cmd_unwatch (char **args, int count) {
-  if (count && args[0][0] != 'A') {
+  if (args[0][0] != 'A') {
     wd[atoi(args[0])] = 0;
-    write(OK, NULL, 0, NULL);
+  } else {
+    wa[atoi(&args[0][1])] = 0;
   }
+  
+  write(OK, NULL, 0, NULL);
 }
-

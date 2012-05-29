@@ -69,7 +69,7 @@ The event system is pretty straightforward.  On initialization an `init` event i
 
 ## Getting and Setting
 
-Getting and setting of `pins` is very simple.  The pin mode is changed automatically.
+Getting and setting of `pins` is very simple.  The pin mode is changed automatically.  It is possible to `get` and `set` both digital and analog pins.
 
     var eventduino = require('eventduino');
     
@@ -82,8 +82,8 @@ Getting and setting of `pins` is very simple.  The pin mode is changed automatic
     ardy.on('init', function (args, comment) {
       console.log('Eventduino init version ' + comment);
     
-      // get the value of pin 1
-      ardy.get(1);
+      // get the value of analog pin 1
+      ardy.get(eventduino.A1);
     
       // set the LED pin to HIGH (1)
       ardy.set(13, 1);
@@ -91,7 +91,7 @@ Getting and setting of `pins` is very simple.  The pin mode is changed automatic
 
 ## Watching for Changes
 
-Eventduino can be set into watch mode, which will check for any changes to the `pin` and send a command if one occurs.  A `watch` can be setup on as many `pins` as required.
+Eventduino can be set into watch mode, which will check for any changes to the `pin` and send a command if one occurs.  A `watch` can be setup on as many `pins` as required.  As analog pins can have a very active variance, a second parameter `variance` can be passed for analog pins: an `event` will only be emitted if the value read on `watch` changes past the `variance`.
 
     var eventduino = require('eventduino');
     
@@ -102,7 +102,7 @@ Eventduino can be set into watch mode, which will check for any changes to the `
       
       // stop watching pin 5 on first change
       if (args[0] === 5) {
-        ardy.unwatch(5);
+        ardy.unwatch(eventduino.A5);
         ardy.set(13, 1);
       }
     });
@@ -111,9 +111,6 @@ Eventduino can be set into watch mode, which will check for any changes to the `
       console.log('Eventduino init version ' + comment);
     
       ardy.watch(1);
-      ardy.watch(5);
+      // only emit the event if +- 5 on the read
+      ardy.watch(eventduino.A5, 5);
     });
-
-## TODO
-
-Implement analog pins.
