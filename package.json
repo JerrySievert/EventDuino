@@ -3,9 +3,9 @@
   "name": "eventduino",
   "description": "Evented Arduino for Node.js",
   "keywords": [ "arduino", "evented", "sketch" ],
-  "version": "0.1.2",
+  "version": "0.1.3",
   "repository": {
-    "url": "http://github.com/JerrySievert/EventDuino.git"
+    "git": "http://github.com/JerrySievert/EventDuino.git"
   },
   "license": "MIT/X11",
   "main": "lib/index.js",
